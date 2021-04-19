@@ -1,0 +1,83 @@
+<p>add-money works!</p>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-title">
+                <h4>Input Your Card Information</h4>
+            </div>
+            <div class="card-body">
+                <form #cardForm="ngForm" novalidate>
+                    
+                    <div class="form-group">
+                        <label>Card Number: </label>
+                        <input type="text" class="form-control" name="cardNumber" ngModel 
+                        #cardNumber="ngModel" pattern="^[0-9]*$" required
+                        [ngClass]="{'is-invalid': cardNumber.errors && (cardNumber.touched || cardNumber.dirty), 'is-valid': cardNumber.valid}"/>
+                        <div class="invalid-feedback">
+                            <strong *ngIf="cardNumber.errors?.required">Card Number is required.</strong>
+                            <strong *ngIf="cardNumber.errors?.pattern">Only Numbers are allowed.</strong>
+                        </div>
+                    </div>
+                    
+                    <label>Expires on: </label>
+                    <div class="row"> 
+                        <div class="form-group col-xs-6">
+                                <input type="date" class="form-control" placeholder="MM" name="expireMonth" ngModel required
+                                #expireMonth="ngModel" pattern="[0-9]*" 
+                                [ngClass]="{'is-invalid': expireMonth.errors && (expireMonth.touched || expireMonth.dirty), 'is-valid': expireMonth.valid}" />
+                                <div class="invalid-feedback">
+                                    <strong *ngIf="expireMonth.errors?.required">Month is required.</strong>
+                                    <strong *ngIf="expireMonth.errors?.pattern">Only Numbers are allowed.</strong>
+                                </div>
+                        </div>
+                        <h3>/</h3>
+                        <div class="form-group col-xs-6">
+                            <input type="date" class="form-control" placeholder="YY" name="expireYear" ngModel required
+                                #expireYear="ngModel" pattern="[0-9]*" 
+                                [ngClass]="{'is-invalid': expireYear.errors && (expireYear.touched || expireYear.dirty), 'is-valid': expireYear.valid}" />
+                                <div class="invalid-feedback">
+                                    <strong *ngIf="expireYear.errors?.required">Year is required.</strong>
+                                    <strong *ngIf="expireYear.errors?.pattern">Only Numbers are allowed.</strong>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Security Code(CVV): </label>
+                        <input type="text" class="form-control" name="cvv" ngModel required
+                        #cvv="ngModel" maxlength="3"
+                        [ngClass]="{'is-invalid': cvv.errors && (cvv.touched || cvv.dirty), 'is-valid': cvv.valid}" />
+                        <div class="invalid-feedback">
+                            <strong *ngIf="cvv.errors?.required">CVV is required.</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Name on your card: </label>
+                        <input type="text" class="form-control" name="cardHolderName" ngModel
+                        #cardHolderName="ngModel" required
+                        [ngClass]="{'is-invalid': cardHolderName.errors && (cardHolderName.touched || cardHolderName.dirty), 'is-valid': cardHolderName.valid}" />
+                        <div class="invalid-feedback">
+                            <strong>Name is required. </strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount want to add: </label>
+                        <input type="text" class="form-control" name="addedMoney" [(ngModel)]="addedMoney" 
+                        #money="ngModel" required min="1"
+                        [ngClass]="{'is-invalid': money.errors && (money.touched || money.dirty), 'is-valid': money.valid}" />
+                        <div class="invalid-feedback">
+                            <strong *ngIf="money.errors?.required">Added money is required.</strong>
+                            <strong *ngIf="money.errors?.min">Money should be greater than 0.</strong>
+                        </div>
+                    </div>
+                </form>
+                <button type="button" class="btn btn-primary" (click)="addMoney()">Add Money</button>
+                &nbsp; &nbsp; &nbsp;
+                <button type="button" class="btn btn-secondary" (click)="backToPortal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

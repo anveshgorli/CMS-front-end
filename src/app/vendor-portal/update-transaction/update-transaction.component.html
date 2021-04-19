@@ -1,0 +1,63 @@
+<p>update-transaction works!</p>
+<div class="card">
+    <div class="card-title">
+        <h4>Transactions</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Order Id</th>
+                    <th>Item Name</th>
+                    <th>Item Quantity</th>
+                    <th>Status</th>
+                    <th>Comments</th>
+                    <th>Action</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let orderDetail of orderDetails">
+                    <td>{{orderDetail.order.orderId}}</td>
+                    <td>{{orderDetail.itemName}}</td>
+                    <td>{{orderDetail.quantity}}</td>
+                    <td>{{orderDetail.status}}</td>
+                    <td>{{orderDetail.comments}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeStatus" (click)="getOrderDetail(orderDetail)" [disabled]="!(orderDetail.status == 'Order Placed')">Change Status</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+       <button type="button" class="btn btn-primary" (click)="onClick()">Back to Portal</button>
+    </div>
+</div>
+
+<div class="modal fade" id="changeStatus" tabindex="-1" role="dialog" aria-labelledby="changeStatusLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeStatusLabel">Change Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="statusForm">
+                    <div class="form-group">
+                        <select class="form-control" formControlName="changeStatus">
+                            <option *ngFor="let s of status">{{s}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for accept/cancel: </label>
+                        <textarea class="form-control" formControlName="comments"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="save()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

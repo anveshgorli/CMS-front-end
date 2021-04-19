@@ -1,0 +1,50 @@
+<p>login works!</p>
+<div class="card">
+    <div class="card-title">
+        <h4 class="card-title">Login Form</h4>
+    </div>
+    <div class="alert alert-info alert-danger " role="alert" *ngIf="showErrorMessage">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <storng>Invalid username and password.</storng>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form [formGroup]="loginForm" novalidate>
+                    <div class="form-group">
+                        <label> Username: </label>
+                        <input type="text" placeholder="Enter username" class="form-control" 
+                        formControlName="username" 
+                        [ngClass]="{'is-invalid': username.errors && (username.touched || username.dirty), 'is-valid': username.valid}" />
+                        <div class="invalid-feedback">
+                            <strong>Username is required.</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password: </label>
+                        &nbsp;&nbsp;&nbsp;
+                        <a routerLink="/forget-password">Forget Password?</a>
+                        <input type="password" placeholder="password" class="form-control" 
+                        formControlName="password" 
+                        [ngClass]="{'is-invalid': password.errors && (password.touched || password.dirty), 'is-valid': password.valid}" />
+                        <div class="invalid-feedback">
+                            <strong>Password is required.</strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Role:</label>
+                        <select class="form-control" formControlName="role">
+                            <option *ngFor="let r of roles">{{r}}</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Login</button>
+                </form>
+                <p>New User? <a routerLink="/register">Register</a></p>
+            </div>
+            
+        </div>
+    </div>
+</div>

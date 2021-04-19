@@ -1,0 +1,18 @@
+<p>vendor-portal works!</p>
+<div class="card">
+    <div class="card-title">
+        <h1>Hi, {{vendor.firstName}} {{vendor.lastName}}, welcome to your portal</h1>
+    </div>
+    <div class="card-subtitle">
+        <p>Select an option below</p>
+    </div>
+    <div class="card-body">
+        <div class="btn-group-vertical">
+            <a routerLink="/vendor/{{vendorId}}/details">Personal Information</a>
+            <a routerLink="/vendor/{{vendorId}}/transaction">View and Update Transaction Status</a>
+            <a routerLink="/vendor/{{vendorId}}/updatemenu">Update Menu</a>
+            <a routerLink="/vendor/{{vendorId}}/customer-list">View Customer List</a>
+            <a routerLink="/login">Log out</a>
+        </div>
+    </div>
+</div>

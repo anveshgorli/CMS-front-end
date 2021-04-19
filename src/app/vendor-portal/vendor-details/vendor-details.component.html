@@ -1,0 +1,43 @@
+<p>vendor-details works!</p>
+<div class="card">
+    <div class="card-title">
+        <h4>Personal Details</h4>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Vendor Id</th>
+                    <td>{{vendorId}}</td>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <td>{{vendor.firstName}}</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{vendor.lastName}}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{vendor.email}}</td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td>{{vendor.username}}</td>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <td>{{vendor.password}}</td>
+                </tr>
+                <tr>
+                    <th>Food Specialization</th>
+                    <td>{{vendor.foodSpecialization}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" type="button" (click)="goUpdate()">Edit</button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="btn btn-primary" (click)="backToPortal()">Back to Portal</button>
+
+</div>

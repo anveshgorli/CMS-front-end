@@ -1,0 +1,100 @@
+<p>place-order works!</p>
+<div>
+    <button type="button" class="btn btn-primary" (click)="backToPortal()">Back To Portal</button>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Menu</h2>
+        <button class="btn btn-primary" type="button" (click)="selectAll()">Select All</button>
+        <p style="color: red;">(Note: quantity will be fixed at 1 when click this button)</p>
+        <div class="row">
+            <div class="col-md-6" *ngFor="let item of menu">
+                <div class="card">
+                    <ng-container *ngFor="let image of images">
+                        <img *ngIf="item.itemId == image.item.itemId" style="width: 100px; height: 100px;" [src] = "'data:image/jpeg;base64,'+image.picByte" alt="No image available" />
+                    </ng-container>
+                    <div class="card-body">
+                        <p>Id: {{item.itemId}}</p>
+                        <p>Name: {{item.itemName}}</p>
+                        <p>Price: {{item.itemPrice}}</p>
+                        <p *ngIf="item.description != null">Description: {{item.description}}</p>
+                        <form [formGroup] = "myForm">
+                            <label>Quantity: </label>
+                            <input type="number" min="1" value="1"  formControlName="quantity"
+                             />
+                        </form>
+                        <button class="btn btn-primary" (click)="selectItem(item)">Select</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <h2>Your Order: </h2>
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let order of selectedItem">
+                            <td>{{order.item.itemName}}</td>
+                            <td>{{order.quantity}}</td>
+                            <td>{{order.item.itemPrice * order.quantity}}</td>
+                            <td>
+                                <button (click)="deleteOrder(order)">delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>  
+            </div>
+            <div class="card-footer">
+                <h5>Total: {{totalAmount - couponAmount}}</h5>
+                <h5>Available coupon(check the box if want to use coupon):</h5>
+                <ul *ngFor="let coupon of coupons">
+                    <li *ngIf="coupon.orderId == null && customer.numberOfOrders == 0 && currentDate.getTime() < getExpireDate(coupon)" >
+                        {{coupon.code}}: ${{coupon.value}}
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="checkbox" (change)="onCheckboxChange($event, coupon)" />
+                    </li> 
+                </ul>
+                <h5>Your Balance: {{customer.balance}}</h5>
+                <hr>
+                <h5 [ngStyle]="{'color': customer.balance < totalAmount ? 'red': 'black'}">Balance Left: {{(customer.balance - totalAmount + couponAmount).toFixed(2)}}</h5>
+
+            </div>
+        </div>
+       
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#placeOrder" (click)="orderPlaced()" [disabled]="(customer.balance < totalAmount) || (totalAmount == 0)">Place Order</button>
+    </div>
+</div>
+
+<div class="modal fade" id="placeOrder" tabindex="-1" role="dialog" aria-labelledby="placeOrderLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="placeOrderLabel">Your order is placed successfully</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your order is created at {{orderTime | date: 'medium'}}. <br>
+                Your order id is {{orderId}}. <br>
+                Your order will be ready in {{prepTime}} minutes. <br>
+                Money will be deducted from your wallet when the order is accepted.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="onPlaceOrder()">Back to Portal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

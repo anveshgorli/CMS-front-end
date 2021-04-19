@@ -1,0 +1,87 @@
+<p>update-menu works!</p>
+<div>
+    <button type="button" class="btn btn-primary" (click)="backToPortal()">Back To Portal</button>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-primary" (click)="addItem()">Add Item</button>
+</div>
+
+<div>
+    <div class="card">
+        <div class="card-title">
+            <h4>Menu</h4>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Item Id</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Picture</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of menu">
+                        <td>{{item.itemId}}</td>
+                        <td>{{item.itemName}}</td>
+                        <td>{{item.itemPrice}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <ng-container *ngFor = "let image of images | async">
+                                <img *ngIf="image.item.itemId === item.itemId" class="card-img-top" 
+                                [src] = "'data:image/jpeg;base64,'+image.picByte" 
+                                alt="No picture for this item" style="width: 100px; height: 100px;"/>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateItem" (click)="getItem(item)">Update</button>
+                            <button type="button" class="btn btn-primary" (click)="deleteItem(item)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateItem" tabindex="-1" role="dialog" aria-labelledby="updateItemLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateItemLabel">Update Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="updateForm">
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input type="text" class="form-control" formControlName="itemName" />
+                    </div>
+                    <div class="form-group">
+                        <label>Item Price</label>
+                        <input type="text" class="form-control" formControlName="itemPrice" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" formControlName="description" ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload New Item Picture</label>
+                        <input type="file" (change)="onFileChanged($event)" />
+                    </div>
+                    <div *ngIf="upload" class="alert alert-success" role="alert">
+                        Image is uploaded successfully!
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateItem()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
